@@ -15,8 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
-include_once "Controller.php";
+include_once("Controller.php");
 include_once("Renderer.php");
+include_once("Db.php");
+include_once("Model.php");
 
 class Application {
     const CONTROLLER_FILE_NAME = "Controller.php";
@@ -44,6 +46,9 @@ class Application {
 
         // initialize renderer
         $this->_renderer = new Renderer($this);
+
+        // include models
+        $this->includeModels();
     }
 
     /**
@@ -56,27 +61,13 @@ class Application {
         $requestTokens = explode('/', $request['r']);
 
         $this->_renderer->setView($requestTokens[0]);
-        $controllerPrefix = ucfirst($requestTokens[0]);
-        $action =  self::CONTROLLER_ACTION_PREFIX . ucfirst($requestTokens[1]);
 
+        $controller = $this->getController($requestTokens[0]);
+        $action =  self::CONTROLLER_ACTION_PREFIX . ucfirst($requestTokens[1]);
         $params = $_REQUEST;
         unset($params['r']);
 
-        $controllerFile = getcwd() .
-            '/' . $this->_configuration['paths']['controller'] . '/' .
-            $controllerPrefix .
-            self::CONTROLLER_FILE_NAME;
-
-        if (!file_exists($controllerFile)) $this->_renderer->renderError("The requested page does not exist.");
-        include_once($controllerFile);
-
-        $reflect = new ReflectionClass($controllerPrefix . self::CONTROLLER_CLASS_NAME);
-        $controller = $reflect->newInstance($this);
-
-        if (!method_exists($controller, $action)) $this->_renderer->renderError("The requested page does not exist.");
-
-        $controller->{$action}($params);
-
+        $this->doAction($controller, $action, $params);
     }
 
     /**
@@ -99,6 +90,45 @@ class Application {
      * @return string URL
      */
     public function getUrl($urlString) {
-        return "index.php?r=$urlString";
+        return "index.php?r=" . $urlString;
+    }
+
+    private function getController($controllerString) {
+        $controllerPrefix = ucfirst($controllerString);
+
+        $controllerFile = getcwd() .
+            '/' . $this->_configuration['paths']['controller'] . '/' .
+            $controllerPrefix .
+            self::CONTROLLER_FILE_NAME;
+
+        if (!file_exists($controllerFile)) $this->renderError();
+        include_once($controllerFile);
+
+        $reflect = new ReflectionClass($controllerPrefix . self::CONTROLLER_CLASS_NAME);
+        return $reflect->newInstance($this);
+    }
+
+    private function doAction($controller, $actionString, $params) {
+        if (!method_exists($controller, $actionString)) $this->renderError();
+
+        $controller->{$actionString}($params);
+    }
+
+    private function renderError() {
+        $this->_renderer->renderError("The requested page does not exist.");
+    }
+
+    private function includeModels() {
+        $modelPath =
+            getcwd() .
+            '/' . $this->_configuration['paths']['model'] . '/';
+
+        $allFiles = scandir($modelPath);
+
+        foreach ($allFiles as $file) {
+            if (preg_match("/.php$/", $file) == 1) {
+                include_once($modelPath . $file);
+            }
+        }
     }
 }

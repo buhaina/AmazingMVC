@@ -19,7 +19,7 @@ $configuration = array(
     'applicationName' => 'My Application',
     'navigationBar' => array(
         'home' => 'site/home',
-        'test1' => 'site/test1',
+        'persons' => 'site/persons',
         'test2' => 'site/test2'
     ),
     'paths' => array(

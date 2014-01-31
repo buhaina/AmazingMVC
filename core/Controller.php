@@ -22,4 +22,8 @@ class Controller {
         $this->application = $application;
     }
 
+    protected function render($page, $data) {
+        $this->application->getRenderer()->render($page, $data);
+    }
+
 } 

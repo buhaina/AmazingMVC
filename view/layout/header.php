@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
+
+/* @var $this Renderer */
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +28,7 @@
     <meta name="author" content="">
     <!--<link rel="shortcut icon" href="../../assets/ico/favicon.ico"> -->
 
-    <title>Starter Template for Bootstrap</title>
+    <title><?php echo $this->getApplication()->getConfiguration()['applicationName']?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">

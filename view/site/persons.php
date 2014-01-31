@@ -15,27 +15,36 @@
 // You should have received a copy of the GNU General Public License
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
-class SiteController extends Controller {
-    public function actionHome($params) {
-        $this->application->getRenderer()->render('home', "heeeeee");
-    }
+/* @var $data
+ * @var $person Person
+ *
+ */
+?>
 
-    public function actionPersons($params) {
-        $person1 = new Person();
+<h1>Persons</h1>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Age
+        </th>
+        <th>
+            Address
+        </th>
+    </tr>
+    <tr>
 
-        $person1->name = "Foo";
-        $person1->age = 24;
-        $person1->address = "BarStreet 32";
+        <?php
 
-        $person2 = new Person();
+foreach ($data as $person) {
+    echo "<tr>";
+    echo "<td>" . $person->name . "</td>";
+    echo "<td>" . $person->age . "</td>";
+    echo "<td>" . $person->address . "</td>";
+    echo "</tr>";
+}
 
-        $person2->name = "Bar";
-        $person2->age = 30;
-        $person2->address = "FooStreet 64";
-
-        $persons = array($person1, $person2);
-
-        $this->render('persons', $persons);
-
-    }
-} 
+?>
+</table>
