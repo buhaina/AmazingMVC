@@ -17,7 +17,7 @@
 
 class SiteController extends Controller {
     public function actionHome($params) {
-        $this->application->getRenderer()->render('home', "heeeeee");
+        $this->render('home', "heeeeee");
     }
 
     public function actionPersons($params) {

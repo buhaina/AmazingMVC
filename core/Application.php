@@ -120,7 +120,7 @@ class Application {
         include_once($controllerFile);
 
         $reflect = new ReflectionClass($controllerPrefix . self::CONTROLLER_CLASS_NAME);
-        return $reflect->newInstance($this);
+        return $reflect->newInstance();
     }
 
     private function doAction($controller, $actionString, $params) {

@@ -18,12 +18,11 @@
 class Controller {
     protected $application;
 
-    public function __construct(Application $application) {
-        $this->application = $application;
+    public function __construct() {
     }
 
     protected function render($page, $data) {
-        $this->application->getRenderer()->render($page, $data);
+        Amvc::app()->getRenderer()->render($page, $data);
     }
 
 } 
