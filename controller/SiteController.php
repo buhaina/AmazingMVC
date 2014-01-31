@@ -21,19 +21,7 @@ class SiteController extends Controller {
     }
 
     public function actionPersons($params) {
-        $person1 = new Person();
-
-        $person1->name = "Foo";
-        $person1->age = 24;
-        $person1->address = "BarStreet 32";
-
-        $person2 = new Person();
-
-        $person2->name = "Bar";
-        $person2->age = 30;
-        $person2->address = "FooStreet 64";
-
-        $persons = array($person1, $person2);
+        $persons = Person::model()->findAll();
 
         $this->render('persons', $persons);
 

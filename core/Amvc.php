@@ -15,13 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
-include_once("core/Application.php");
-include_once("core/Amvc.php");
+class Amvc {
+    /* @var Application $app */
+    public static $app;
 
-$app = new Application("config/config.php");
-
-Amvc::$app = $app;
-
-$app->run();
-
-
+    public static function app() {
+        return self::$app;
+    }
+} 

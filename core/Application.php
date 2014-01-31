@@ -27,6 +27,7 @@ class Application {
 
     private $_renderer;
     private $_configuration;
+    private $_db;
 
     /**
      * Constructor. Constructs application with configuration.
@@ -47,6 +48,9 @@ class Application {
         // initialize renderer
         $this->_renderer = new Renderer($this);
 
+        // initialize
+        $this->_db = new Db();
+
         // include models
         $this->includeModels();
     }
@@ -62,7 +66,7 @@ class Application {
 
         $this->_renderer->setView($requestTokens[0]);
 
-        $controller = $this->getController($requestTokens[0]);
+        $controller = $this->createController($requestTokens[0]);
         $action =  self::CONTROLLER_ACTION_PREFIX . ucfirst($requestTokens[1]);
         $params = $_REQUEST;
         unset($params['r']);
@@ -93,7 +97,18 @@ class Application {
         return "index.php?r=" . $urlString;
     }
 
-    private function getController($controllerString) {
+    /**
+     * @return Db db
+     */
+    public function getDb() {
+        return $this->_db;
+    }
+
+    /**
+     * @param $controllerString
+     * @return Controller controller
+     */
+    private function createController($controllerString) {
         $controllerPrefix = ucfirst($controllerString);
 
         $controllerFile = getcwd() .

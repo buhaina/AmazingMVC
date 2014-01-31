@@ -15,13 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
-include_once("core/Application.php");
-include_once("core/Amvc.php");
-
-$app = new Application("config/config.php");
-
-Amvc::$app = $app;
-
-$app->run();
-
-
+return array(
+    array(
+        'name'      =>  'Pekka',
+        'age'       =>  25,
+        'address'   =>  'MySqlStreet 32'
+    ),
+    array(
+        'name'      =>  'Maria',
+        'age'       =>  20,
+        'address'   =>  'MagdalenaStreet 64'
+    ),
+    array(
+        'name'      =>  'Micke',
+        'age'       =>  15,
+        'address'   =>  'ExampleStreet 16'
+    )
+);

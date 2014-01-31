@@ -28,7 +28,7 @@
     <meta name="author" content="">
     <!--<link rel="shortcut icon" href="../../assets/ico/favicon.ico"> -->
 
-    <title><?php echo $this->getApplication()->getConfiguration()['applicationName']?></title>
+    <title><?php echo Amvc::app()->getConfiguration()['applicationName']?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">

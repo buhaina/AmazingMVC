@@ -16,5 +16,34 @@
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 class Db {
+    public function __construct() {
 
+    }
+
+    public function findAll($tableName, $modelClass)
+    {
+        $file =
+            getcwd() .
+            '/' . Amvc::app()->getConfiguration()['paths']['data'] . '/' .
+            $tableName . ".php";
+
+        $reflect = new ReflectionClass($modelClass);
+
+        $models = array();
+
+        $dataRows = include_once($file);
+
+        foreach ($dataRows as $dataRow) {
+            $model = $reflect->newInstance();
+
+            foreach ($dataRow as $dataAttributeKey => $dataAttributeValue) {
+
+                $model->$dataAttributeKey = $dataAttributeValue;
+            }
+
+            $models[] = $model;
+        }
+
+        return $models;
+    }
 } 

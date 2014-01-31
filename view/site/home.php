@@ -16,4 +16,4 @@
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 ?>
 
-<h1>Welcome to <?php echo $this->getApplication()->getConfiguration()['applicationName']; ?></h1>
+<h1>Welcome to <?php echo Amvc::app()->getConfiguration()['applicationName']; ?></h1>

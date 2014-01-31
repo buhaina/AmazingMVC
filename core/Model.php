@@ -18,6 +18,10 @@
 class Model {
     private $_data;
 
+    public function findAll() {
+        return Amvc::app()->getDb()->findAll($this->tableName(), $this->className());
+    }
+
     public function __construct() {
         $this->_data = array();
 
@@ -40,6 +44,14 @@ class Model {
         return array(
 
         );
+    }
+
+    protected function tableName() {
+        return 'sdsd';
+    }
+
+    protected function className() {
+        return __CLASS__;
     }
 
     private function hasProperty($propertyName) {

@@ -16,32 +16,30 @@
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
 class Renderer {
-    private $_application;
     private $_view;
 
     const ERROR_PAGE = "error";
     const LAYOUT_BASE_DIRECTORY = "layout";
 
-    public function __construct($application) {
-        $this->_application = $application;
+    public function __construct() {
     }
 
     public function render($page, $data) {
         if ($page != "error") {
             $pageDir =
                 getcwd() .
-                '/' . $this->_application->getConfiguration()['paths']['view'] . '/' . $this->_view . '/';
+                '/' . Amvc::app()->getConfiguration()['paths']['view'] . '/' . $this->_view . '/';
 
             $pageFile = $pageDir . $page . ".php";
         }
 
         else $pageFile =
             getcwd() .
-            '/' . $this->_application->getConfiguration()['paths']['view'] . '/' . "error.php";
+            '/' . Amvc::app()->getConfiguration()['paths']['view'] . '/' . "error.php";
 
         $layoutDir =
             getcwd() .
-            '/' . $this->_application->getConfiguration()['paths']['view'] .
+            '/' . Amvc::app()->getConfiguration()['paths']['view'] .
             '/' . self::LAYOUT_BASE_DIRECTORY . '/';
 
         include_once($layoutDir . "header.php");
@@ -58,12 +56,5 @@ class Renderer {
 
     public function renderError($errorMessage) {
         $this->render('error', $errorMessage);
-    }
-
-    /**
-     * @return Application application
-     */
-    public function getApplication() {
-        return $this->_application;
     }
 }

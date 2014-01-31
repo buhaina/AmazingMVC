@@ -20,12 +20,13 @@ $configuration = array(
     'navigationBar' => array(
         'home' => 'site/home',
         'persons' => 'site/persons',
-        'test2' => 'site/test2'
+        'this_causes_error' => 'site/test'
     ),
     'paths' => array(
         'controller' => 'controller',
         'view' => 'view',
-        'model' => 'model'
+        'model' => 'model',
+        'data' => 'data'
     ),
     'indexPage' => 'site/home',
 );

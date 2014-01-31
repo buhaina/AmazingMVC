@@ -28,4 +28,16 @@ class Person extends Model {
             'age', 'name', 'address'
         );
     }
+
+    protected function tableName() {
+        return 'person';
+    }
+
+    protected function className() {
+        return __CLASS__;
+    }
+
+    public static function model() {
+        return new Person();
+    }
 } 
