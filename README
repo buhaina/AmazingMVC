@@ -4,3 +4,7 @@ AmazingMVC - project
 AmazingMVC is a simple MVC framework written in PHP.
 
 The aim of this project is to write a MVC framework, that is easy to use and suitable for simple websites. If you are a PHP newbie and don't know anything about MVC, this might be a good starting point for learning things. However, the real database connection is not provided (at least not in the early versions). If you want to add MySQL functionality to this framework, you should edit Model.php and Db.php. If you know MySQL basics, it should not be too hard to make these modifications.
+
+Project on my website: http://users.jyu.fi/~mipepelk/index.php?r=dev/view&id=2
+
+By the way, my website is built top of the AmazingMVC.
