@@ -15,11 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
-include_once("Controller.php");
-include_once("Renderer.php");
-include_once("Db.php");
-include_once("Model.php");
-
 class Application {
     const CONTROLLER_FILE_NAME = "Controller.php";
     const CONTROLLER_CLASS_NAME = "Controller";
@@ -29,14 +24,17 @@ class Application {
     private $_configuration;
     private $_db;
 
+    private $_baseDir;
+
     /**
      * Constructor. Constructs application with configuration.
      *
      * @param $configurationFileName
+     * @param $baseDir
      */
-    public function __construct($configurationFileName) {
+    public function __construct($configurationFileName, $baseDir) {
         // read configuration
-        include_once($configurationFileName);
+        $configuration = include_once($configurationFileName);
 
         if (!isset($configuration)) {
             die("invalid configuration file");
@@ -51,15 +49,21 @@ class Application {
         // initialize
         $this->_db = new Db();
 
+        // set base dir
+        $this->_baseDir = $baseDir;
+
         // include models
         $this->includeModels();
+
     }
 
     /**
      * Runs the application.
      */
     public function run() {
-        if (empty($_REQUEST)) $request = array('r' => $this->_configuration['indexPage']);
+        if (!isset($_REQUEST['r'])) {
+            $request = array('r' => $this->_configuration['indexPage']);
+        }
         else $request = $_REQUEST;
 
         $requestTokens = explode('/', $request['r']);
@@ -91,10 +95,19 @@ class Application {
     }
 
     /**
+     * @param $urlString
+     * @param array $params
      * @return string URL
      */
-    public function getUrl($urlString) {
-        return "index.php?r=" . $urlString;
+    public function getUrl($urlString, $params = null) {
+        $output = "index.php?r=" . $urlString;
+
+        if ($params != null) {
+            foreach ($params as $key => $value) {
+                $output .= ("&" . $key . "=" . $value);
+            }
+        }
+        return $output;
     }
 
     /**
@@ -104,6 +117,10 @@ class Application {
         return $this->_db;
     }
 
+    public function getBaseDir() {
+        return $this->_baseDir;
+    }
+
     /**
      * @param $controllerString
      * @return Controller controller
@@ -111,7 +128,7 @@ class Application {
     private function createController($controllerString) {
         $controllerPrefix = ucfirst($controllerString);
 
-        $controllerFile = getcwd() .
+        $controllerFile = $this->getBaseDir() .
             '/' . $this->_configuration['paths']['controller'] . '/' .
             $controllerPrefix .
             self::CONTROLLER_FILE_NAME;
@@ -134,8 +151,9 @@ class Application {
     }
 
     private function includeModels() {
+
         $modelPath =
-            getcwd() .
+            $this->getBaseDir() .
             '/' . $this->_configuration['paths']['model'] . '/';
 
         $allFiles = scandir($modelPath);

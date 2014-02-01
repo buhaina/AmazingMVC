@@ -22,16 +22,18 @@ class Db {
 
     public function findAll($tableName, $modelClass)
     {
+        $config = Amvc::app()->getConfiguration();
+
         $file =
-            getcwd() .
-            '/' . Amvc::app()->getConfiguration()['paths']['data'] . '/' .
+            Amvc::app()->getBaseDir() .
+            '/' . $config['paths']['data'] . '/' .
             $tableName . ".php";
 
         $reflect = new ReflectionClass($modelClass);
 
         $models = array();
 
-        $dataRows = include_once($file);
+        $dataRows = include($file);
 
         foreach ($dataRows as $dataRow) {
             $model = $reflect->newInstance();
@@ -42,6 +44,43 @@ class Db {
             }
 
             $models[] = $model;
+        }
+
+        return $models;
+    }
+
+    public function findByPk($tableName, $modelClass, $id)
+    {
+        $allModels = $this->findAll($tableName, $modelClass);
+
+        foreach ($allModels as $model) {
+            if ($model->id == $id) {
+                return $model;
+            }
+        }
+
+        return null;
+    }
+
+    public function findByConditions($tableName, $modelClass, $conditions)
+    {
+        $models = array();
+
+        $allModels = $this->findAll($tableName, $modelClass);
+
+        foreach ($allModels as $model) {
+            $conditionsOk = true;
+
+            foreach ($conditions as $key => $value) {
+                if ($model->$key != $value) {
+                    $conditionsOk = false;
+                    break;
+                }
+            }
+
+            if ($conditionsOk) {
+                $models[] = $model;
+            }
         }
 
         return $models;

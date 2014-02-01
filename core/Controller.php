@@ -24,5 +24,4 @@ class Controller {
     protected function render($page, $data) {
         Amvc::app()->getRenderer()->render($page, $data);
     }
-
 } 

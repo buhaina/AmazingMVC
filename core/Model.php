@@ -22,6 +22,14 @@ class Model {
         return Amvc::app()->getDb()->findAll($this->tableName(), $this->className());
     }
 
+    public function findByPk($id) {
+        return Amvc::app()->getDb()->findByPk($this->tableName(), $this->className(), $id);
+    }
+
+    public function findByConditions(array $conditions) {
+        return Amvc::app()->getDb()->findByConditions($this->tableName(), $this->className(), $conditions);
+    }
+
     public function __construct() {
         $this->_data = array();
 
@@ -47,7 +55,7 @@ class Model {
     }
 
     protected function tableName() {
-        return 'sdsd';
+        return '';
     }
 
     protected function className() {
@@ -55,6 +63,9 @@ class Model {
     }
 
     private function hasProperty($propertyName) {
-        return isset($this->_data[$propertyName]);
+        foreach ($this->_data as $attribute => $value) {
+            if ($propertyName === $attribute) return true;
+        }
+        return false;
     }
 }

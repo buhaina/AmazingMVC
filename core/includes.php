@@ -15,12 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AmazingMVC.  If not, see <http://www.gnu.org/licenses/>.
 
-$baseDir = dirname(__FILE__);
-
-include_once($baseDir . "/core/includes.php");
-
-$app = new Application($baseDir . "/config/config.php", $baseDir);
-
-Amvc::$app = $app;
-
-$app->run();
+include_once("Amvc.php");
+include_once("Application.php");
+include_once("Controller.php");
+include_once("Renderer.php");
+include_once("Db.php");
+include_once("Model.php");

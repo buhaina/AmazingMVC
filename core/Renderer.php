@@ -25,21 +25,23 @@ class Renderer {
     }
 
     public function render($page, $data) {
+        $config = Amvc::app()->getConfiguration();
+
         if ($page != "error") {
             $pageDir =
-                getcwd() .
-                '/' . Amvc::app()->getConfiguration()['paths']['view'] . '/' . $this->_view . '/';
+                Amvc::app()->getBaseDir() .
+                '/' . $config['paths']['view'] . '/' . $this->_view . '/';
 
             $pageFile = $pageDir . $page . ".php";
         }
 
         else $pageFile =
-            getcwd() .
-            '/' . Amvc::app()->getConfiguration()['paths']['view'] . '/' . "error.php";
+            Amvc::app()->getBaseDir() .
+            '/' . $config['paths']['view'] . '/' . "error.php";
 
         $layoutDir =
-            getcwd() .
-            '/' . Amvc::app()->getConfiguration()['paths']['view'] .
+            Amvc::app()->getBaseDir() .
+            '/' . $config['paths']['view'] .
             '/' . self::LAYOUT_BASE_DIRECTORY . '/';
 
         include_once($layoutDir . "header.php");
